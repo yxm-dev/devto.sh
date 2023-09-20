@@ -1,0 +1,12 @@
+usage: devto [options] [arguments] (general case)
+   or: devto                       (interactive mode)
+
+options:
+    -c, -cgf, --config                enter in the configuration mode
+    -h, --help                        display this help message
+    -u, --uninstall                   uninstall devto.sh
+    -i, --init                        init. work. dir. as a dev.to dir.
+    -n, --new                         create a new post (relative path allowed)
+    -p, --push                        push changes to GitHub and dev.to
+    -o, --open                        open dev.to profile in default browser
+    -t, --token                       explains how to get a dev.to token

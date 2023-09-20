@@ -1,0 +1,28 @@
+#! /bin/bash 
+
+PKG_name="devto.sh"
+
+declare -A PKG_distro_include
+
+PKG_distro_include["Debian"]="yes"
+PKG_distro_include["Arch"]="yes"
+PKG_distro_include["RedHat"]="yes"
+PKG_distro_include["openSUSE"]="yes"
+
+
+declare -a PKG_dependencies
+
+PKG_dependencies=(node go)
+
+PKG_distro_package_name["Debian","node"]="nodejs"
+PKG_distro_package_name["Arch","node"]="node npm"
+PKG_distro_package_name["RedHat","node"]="nodejs"
+PKG_distro_package_name["openSUSE","node"]="nodejs"
+
+PKG_distro_package_name["Debian","go"]="golang"
+PKG_distro_package_name["Arch","node"]="go"
+PKG_distro_package_name["RedHat","node"]="golang"
+PKG_distro_package_name["openSUSE","node"]="go"
+
+
+PKG_install_dir=/root/.config/devto.sh

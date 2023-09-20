@@ -1,0 +1,8 @@
+To get a dev.to token to a dev.to with USERNAME, ty the following steps:
+
+1. visit "https://dev.to" and login with your account
+2. after logged, visit "https://dev.to/settings/extensions"
+3. scroll to the end of the page
+4. in "Generate a New Key" provide a NAME
+5. click in "Generate API Key"
+6. click in NAME to reveal your token.

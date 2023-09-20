@@ -1,0 +1,23 @@
+#! /bin/bash 
+
+echo "Checking for custom dependency devto-cli..."
+if [[ ! -x devto-cli ]]; then 
+    echo "ok..."
+else
+    echo echo "Installing custom dependency devto-cli..."
+    npm install -g @sinedied/devto-cli
+    mv /usr/bin/dev /usr/bin/devto-cli
+fi
+
+echo "Checking for custom dependency github-cli..."
+if [[ ! -x gh ]]; then
+    echo "ok..."
+else
+    echo echo "Installing custom dependency github-cli..."
+    git clone https://github.com/cli/cli.git gh-cli
+    cd gh-cli
+    make
+    make install
+fi
+
+
