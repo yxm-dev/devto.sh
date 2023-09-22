@@ -102,7 +102,7 @@
                 devto-cli init <<< "$REPO" "$BRANCH" > /dev/null
                 rm -r $PWD/posts/article.md
                 gh repo create ${REPO##*/} --public
-                git remote add devto ssh://git@github.com/$REPO
+                git remote add dev.to ssh://git@github.com/$REPO
                 git add .
                 git commit -m "..." > /dev/null
                 git checkout -b $BRANCH > /dev/null
@@ -122,7 +122,7 @@
                     eval "$(cat $PWD/.env)"
                     git add .
                     git commit -m "..."
-                    git push -q devto $DEVTO_BRANCH
+                    git push -q dev.to $DEVTO_BRANCH
                     devto-cli p -e
                 else
                     echo "error: This is not a dev.to initiated directory."
