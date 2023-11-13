@@ -91,7 +91,7 @@
                 echo "error: GitHub CLI was not authenticated. Try \"gh auth\"."
             else
                 mkdir files
-                cp $PKG_install_dir/files/env .env
+                touch .env
                 cp $PKG_install_dir/files/gitignore .gitignore
                 echo "DEVTO_REPO=$REPO" >> .env
                 echo "DEVTO_BRANCH=$BRANCH" >> .env
@@ -108,7 +108,7 @@
                 git checkout -b $BRANCH > /dev/null
                 git push -q devto $BRANCH > /dev/null
                 gh secret set DEVTO_TOKEN <<< $TOKEN
-                echo "Directory \"${PWD##*/}\" was dev.to initialized and syncronized with the GitHub repository \"$REPO\" through the branch \"$BRANCH\", and with your dev.to profile."
+                echo "Directory \"${PWD##*/}\" was dev.to initialized and syncronized with your profile and with the GitHub repository \"$REPO\" through the branch \"$BRANCH\"."
                 echo "* To refer to this dev.to directory use the alias \"$ALIAS\"."
                 echo "* Create a new post with \"devto --new\"."
             fi
@@ -120,6 +120,7 @@
                    [[ -d "$PWD/.git" ]] &&
                    [[ -d "$PWD/.github" ]]; then
                     eval "$(cat $PWD/.env)"
+                    cp -r posts/* files
                     git add .
                     git commit -m "..."
                     git push -q dev.to $DEVTO_BRANCH
@@ -130,6 +131,7 @@
             elif [[ "${DEVTO_ALIAS[@]}" =~ "$1" ]]; then
                 cd ${DEVTO_ALIAS[$1]}
                 eval "$(cat $PWD/.env)"
+                cp -r posts/* files
                 git add .
                 git commit -m "..." > /dev/null
                 git push -q devto $DEVTO_BRANCH > /dev/null
@@ -158,15 +160,9 @@
        function DEVTO_new(){
             if [[ -z "$2" ]]; then
                 if DEVTO_check_parent "$PWD" "posts"; then
-                    if [[ -f "../$PWD/.env" ]] && 
-                       [[ -d "../$PWD/.git" ]] &&
-                       [[ -d "../$PWD/.github" ]]; then
-                        devto-cli new $1
-                    else
-                        echo "error: This is not a dev.to initiated directory."
-                    fi
-                else
-                    echo "error: This is not a dev.to initiated directory."
+                    devto-cli new $1
+                 else
+                    echo "error: You are not in the posts/ directory."
                 fi
             else
                 if [[ "${DEVTO_ALIAS[@]}" =~ "$1" ]]; then
@@ -179,16 +175,12 @@
         }
 ### open the dev.to profile in default browser
         function DEVTO_open(){
-            if [[ -z "$2" ]]; then
-                if DEVTO_check_parent "$PWD" "posts"; then
-                    if [[ -f "../$PWD/.env" ]] &&
-                       [[ -d "../$PWD/.git" ]] &&
-                       [[ -d "../$PWD/.github" ]]; then
+            if [[ -z "$2" ]]; then 
+                if [[ -f "../$PWD/.env" ]] &&
+                   [[ -d "../$PWD/.git" ]] &&
+                   [[ -d "../$PWD/.github" ]]; then
                         eval "$(cat $PWD/.env)"
                         xdg-open https://dev.to/$DEVTO_PROFILE & disown
-                    else
-                        echo "error: This is not a dev.to initiated directory."
-                    fi
                 else
                     echo "error: This is not a dev.to initiated directory."
                 fi
@@ -261,17 +253,7 @@
         else 
             echo "Option not defined for the \"devto\" function."
         fi
-## Unseting Auxiliary Functions
-    unset -f DEVTO_init_repo
-    unset -f DEVTO_init_alias
-    unset -f DEVTO_init_branch
-    unset -f DEVTO_init_profile
-    unset -f DEVTO_init_token
-    unset -f DEVTO_init
-    unset -f DEVTO_push
-    unset -f DEVTO_new
-    unset -f DEVTO_open
-    }
+}
  
 # ALIASES
 alias devtoi="devto -i"
